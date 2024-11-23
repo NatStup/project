@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/fastApiProject.iml" filepath="$PROJECT_DIR$/.idea/fastApiProject.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/project.iml" filepath="$PROJECT_DIR$/.idea/project.iml" />
+>>>>>>> 66a5340ccd4bec9999be8fea20a4b6559962a087
     </modules>
   </component>
 </project>
