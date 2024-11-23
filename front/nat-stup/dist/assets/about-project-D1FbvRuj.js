@@ -1,0 +1,1 @@
+import{_ as o,g as t,h as s,o as r}from"./index-Cg2Qm5ml.js";const a={},c={class:"about"};function n(_,e){return r(),t("div",c,e[0]||(e[0]=[s("h1",null,"О проекте",-1)]))}const d=o(a,[["render",n]]);export{d as default};
