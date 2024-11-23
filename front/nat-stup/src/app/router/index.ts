@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-const MainPage = () => import('@/pages/main-page.vue') // lazy loading
+const MainPage = () => import('@/pages/main-page/ui/main-page.vue') // lazy loading
 const AboutProject = () => import('@/pages/about-project.vue') // lazy loading
 
 

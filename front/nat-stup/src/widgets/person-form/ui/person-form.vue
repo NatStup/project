@@ -1,8 +1,13 @@
 <script setup lang="ts">
 
-// const props = defineProps<Props>()
-
+import type {SettingPersonOption} from "@/pages/main-page/ui/main-page.vue";
 import {ref} from "vue";
+
+type Props = {
+  settingPersonOption: SettingPersonOption
+}
+
+defineProps<Props>()
 
 const formRef = ref();
 
@@ -19,20 +24,36 @@ const specificTags = defineModel('specificTags')
     style="width: 420px"
   >
     <a-form-item label="Направление бизнеса">
-      <a-input v-model:value="direction" />
+      <a-select v-model:value="direction">
+        <a-select-option
+          v-for="direction in settingPersonOption.directions"
+          :key="direction.id"
+          :value="direction.name"
+        >
+          {{ direction.name }}
+        </a-select-option>
+      </a-select>
     </a-form-item>
     <a-form-item label="Тип заявителя">
       <a-select v-model:value="applicantType">
-        <a-select-option value="demo">Индивидуальный предприниматель</a-select-option>
-        <a-select-option value="demo">Физическое лицо</a-select-option>
-        <a-select-option value="demo">Юридическое лицо</a-select-option>
+        <a-select-option
+          v-for="applicantType in settingPersonOption.applicant_types"
+          :key="applicantType.id"
+          :value="applicantType.name"
+        >
+          {{ applicantType.name }}
+        </a-select-option>
       </a-select>
     </a-form-item>
     <a-form-item label="Регион предоставления">
       <a-select v-model:value="regionOfProvision">
-        <a-select-option value="demo">Индивидуальный предприниматель</a-select-option>
-        <a-select-option value="demo">Физическое лицо</a-select-option>
-        <a-select-option value="demo">Юридическое лицо</a-select-option>
+        <a-select-option
+          v-for="regionOfProvision in settingPersonOption.venues"
+          :key="regionOfProvision.id"
+          :value="regionOfProvision.name"
+        >
+          {{ regionOfProvision.name }}
+        </a-select-option>
       </a-select>
     </a-form-item>
 <!--    <a-form-item label="Даты проведения">-->
