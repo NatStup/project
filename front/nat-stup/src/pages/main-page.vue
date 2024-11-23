@@ -15,9 +15,17 @@ const inputValue = ref<PersonForm>({
   regionOfProvision: 'ЮФО',
   specificTags: 'шерсть',
 })
+const searchValue = ref<string>('')
+
+const findSearch = ref([
+  'Первый вариант ответа',
+  'Второй вариант ответа незнаю что тут нужно',
+  'Третий вариант ответа Н+1',
+  'Четвертый вариант ответа принятие',
+  'Пятый вариант ответа нужно понять как конфигурировать текст',
+])
 
 function checkPerson(numberPerson: number){
-  console.log(numberPerson)
   if (numberPerson === 1) {
     inputValue.value = {
       direction: 'Гладить кота',
@@ -43,15 +51,19 @@ function checkPerson(numberPerson: number){
   console.log(inputValue.value)
 }
 
+function search() {
+  console.log(searchValue.value)
+}
+
 onMounted(async () => {
-  const settingPerson = fetch('/settings/')
+  const settingPerson = fetch('/api/settings/')
   console.log(settingPerson)
 })
 </script>
 
 <template>
   <div id="main-page">
-    <div>
+    <div id="user-window">
       <div id="users">
         <div
           class="user-info"
@@ -75,6 +87,7 @@ onMounted(async () => {
           Юзер-3
         </div>
       </div>
+      <h3>Юзер</h3>
       <person-form
         v-model:direction="inputValue.direction"
         v-model:applicant-type="inputValue.applicantType"
@@ -88,14 +101,40 @@ onMounted(async () => {
         <h3>
           Поиск по интересующим тезисам
         </h3>
-        <a-form-item label="Поиск">
-          <a-input />
-        </a-form-item>
+        <div id="search-value">
+          <a-input class="mb-2" v-model:value="searchValue"/>
+          <a-button
+            class="mb-2"
+            type="primary"
+            @click="search"
+          >
+            Поиск
+          </a-button>
+        </div>
+        <div class="finding-search">
+          <h4>Найденные результаты</h4>
+          <div
+            v-for="searchInfo in findSearch"
+            class="search-info-value"
+          >
+            <p>
+              {{searchInfo}}
+            </p>
+          </div>
+        </div>
       </div>
       <div class="search-form">
         <h3>
           Приходящая информация формируемая из данных о пользователе
         </h3>
+        <div
+          v-for="searchInfo in findSearch"
+          class="search-info-value"
+        >
+          <p>
+            {{searchInfo}}
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -106,6 +145,13 @@ onMounted(async () => {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+}
+#user-window{
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: column;
 }
 #users{
   display: flex;
@@ -121,10 +167,20 @@ onMounted(async () => {
   align-items: center;
   flex-direction: column;
 
+  padding: 10px;
+
   cursor: pointer;
 }
 #info-form{
   padding-left: 20px;
+}
+#search-value{
+  width: 80%;
+
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .search-form{
   height: 300px;
@@ -142,5 +198,18 @@ onMounted(async () => {
 }
 h3{
   padding: 20px;
+}
+.search-info-value{
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  padding: 5px;
+}
+.finding-search{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
 }
 </style>

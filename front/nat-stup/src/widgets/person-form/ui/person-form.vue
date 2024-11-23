@@ -16,9 +16,9 @@ const specificTags = defineModel('specificTags')
   <a-form
     layout="horizontal"
     ref="formRef"
-    style="max-width: 600px"
+    style="width: 420px"
   >
-    <a-form-item label="Направление">
+    <a-form-item label="Направление бизнеса">
       <a-input v-model:value="direction" />
     </a-form-item>
     <a-form-item label="Тип заявителя">
