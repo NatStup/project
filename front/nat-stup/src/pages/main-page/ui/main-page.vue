@@ -1,6 +1,20 @@
 <script setup lang="ts">
 import PersonForm from "@/widgets/person-form";
 import {onMounted, ref} from "vue";
+import InfoSearchForm from "@/entites/info-search-form";
+import personMock from "../model";
+import { columns } from "../config";
+
+type OptionValue = {
+  id: number;
+  name: string;
+}
+
+export type SettingPersonOption = {
+  applicant_types: OptionValue[];
+  directions: OptionValue[];
+  venues: OptionValue[];
+}
 
 type PersonForm = {
   direction: string;
@@ -9,13 +23,18 @@ type PersonForm = {
   specificTags: string;
 }
 
-const inputValue = ref<PersonForm>({
+const settingPersonOption = ref<SettingPersonOption>({
+  applicant_types: [],
+  directions: [],
+  venues: [],
+})
+
+const personFormValue = ref<PersonForm>({
   direction: 'Гладить кота',
   applicantType: 'Индивидуальный предприниматель',
   regionOfProvision: 'ЮФО',
   specificTags: 'шерсть',
 })
-const searchValue = ref<string>('')
 
 const findSearch = ref([
   'Первый вариант ответа',
@@ -25,40 +44,36 @@ const findSearch = ref([
   'Пятый вариант ответа нужно понять как конфигурировать текст',
 ])
 
-function checkPerson(numberPerson: number){
-  if (numberPerson === 1) {
-    inputValue.value = {
-      direction: 'Гладить кота',
-      applicantType: 'Индивидуальный предприниматель',
-      regionOfProvision: 'ЮФО',
-      specificTags: 'шерсть',
-    }
-  } else if (numberPerson === 2) {
-    inputValue.value = {
-      direction: 'Чесать гуся',
-      applicantType: 'Физическое лицо',
-      regionOfProvision: 'Москва',
-      specificTags: 'перо',
-    }
-  } else {
-    inputValue.value = {
-      direction: 'Смотреть на стадо коров',
-      applicantType: 'Юридическое лицо',
-      regionOfProvision: 'Ростовская область',
-      specificTags: 'молоко',
-    }
-  }
-  console.log(inputValue.value)
+function checkPerson(numberPerson: number) {
+  personFormValue.value = personMock(numberPerson)
 }
 
-function search() {
-  console.log(searchValue.value)
+function search(searchValue: string) {
+  console.log(searchValue)
 }
 
 onMounted(async () => {
-  const settingPerson = fetch('/api/settings/')
+  const settingPersonFetch = await fetch('http://81.94.156.218/api/get_filters')
+  const settingPerson = await settingPersonFetch.json()
+
+  settingPersonOption.value = settingPerson
   console.log(settingPerson)
 })
+
+const dataSource = [
+  {
+    key: '1',
+    name: 'Mike',
+    age: 32,
+    address: '10 Downing Street',
+  },
+  {
+    key: '2',
+    name: 'John',
+    age: 42,
+    address: '10 Downing Street',
+  },
+]
 </script>
 
 <template>
@@ -69,72 +84,59 @@ onMounted(async () => {
           class="user-info"
           @click="checkPerson(1)"
         >
-          <img alt="Пользователь 1" class="logo" src="@/shared/assets/title-1.jpg" width="100" height="100" />
+          <img alt="Пользователь 1" class="logo" src="../../../shared/assets/title-1.jpg" width="100" height="100" />
           Юзер-1
         </div>
         <div
           class="user-info"
           @click="checkPerson(2)"
         >
-          <img alt="Пользователь 2" class="logo" src="@/shared/assets/title-2.jpg" width="100" height="100" />
+          <img alt="Пользователь 2" class="logo" src="../../../shared/assets/title-2.jpg" width="100" height="100" />
           Юзер-2
         </div>
         <div
           class="user-info"
           @click="checkPerson(3)"
         >
-          <img alt="Пользователь 3" class="logo" src="@/shared/assets/title-3.jpg" width="100" height="100" />
+          <img alt="Пользователь 3" class="logo" src="../../../shared/assets/title-3.jpg" width="100" height="100" />
           Юзер-3
         </div>
       </div>
       <h3>Юзер</h3>
       <person-form
-        v-model:direction="inputValue.direction"
-        v-model:applicant-type="inputValue.applicantType"
-        v-model:region-of-provision="inputValue.regionOfProvision"
-        v-model:specific-tags="inputValue.specificTags"
+        v-model:direction="personFormValue.direction"
+        v-model:applicant-type="personFormValue.applicantType"
+        v-model:region-of-provision="personFormValue.regionOfProvision"
+        v-model:specific-tags="personFormValue.specificTags"
+
+        :setting-person-option = "settingPersonOption"
       />
     </div>
     <div class="stick-vertical"/>
     <div id="info-form">
-      <div class="search-form">
-        <h3>
-          Поиск по интересующим тезисам
-        </h3>
-        <div id="search-value">
-          <a-input class="mb-2" v-model:value="searchValue"/>
-          <a-button
-            class="mb-2"
-            type="primary"
-            @click="search"
-          >
-            Поиск
-          </a-button>
-        </div>
-        <div class="finding-search">
-          <h4>Найденные результаты</h4>
-          <div
-            v-for="searchInfo in findSearch"
-            class="search-info-value"
-          >
-            <p>
-              {{searchInfo}}
-            </p>
-          </div>
-        </div>
-      </div>
+      <info-search-form
+        :find-search-value="findSearch"
+
+        @search="search"
+      />
       <div class="search-form">
         <h3>
           Приходящая информация формируемая из данных о пользователе
         </h3>
         <div
           v-for="searchInfo in findSearch"
+          :key="searchInfo"
           class="search-info-value"
         >
           <p>
             {{searchInfo}}
           </p>
         </div>
+        <a-table
+          :dataSource="dataSource"
+          :columns="columns"
+          :scroll="{ x: 800, y: 400 }"
+        />
       </div>
     </div>
   </div>
@@ -174,14 +176,7 @@ onMounted(async () => {
 #info-form{
   padding-left: 20px;
 }
-#search-value{
-  width: 80%;
 
-  display: flex;
-  align-items: flex-start;
-  flex-direction: row;
-  justify-content: space-between;
-}
 .search-form{
   height: 300px;
 
@@ -205,11 +200,5 @@ h3{
   flex-direction: column;
   width: 100%;
   padding: 5px;
-}
-.finding-search{
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
 }
 </style>

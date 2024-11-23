@@ -22,8 +22,16 @@ main {
     padding: 10px;
 }
 footer {
+    position: fixed;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+
     bottom: 0;
     height: 50px;
+
+    background-color: var(--color-background);
 }
 h1 {
     font-size: 1.65em;
