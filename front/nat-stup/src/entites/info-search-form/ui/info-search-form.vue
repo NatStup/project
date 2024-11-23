@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import { ref } from "vue";
+import { columns } from "@/pages/main-page/config";
 
 type Props = {
-  findSearchValue: string[]
+  findSearchValue: object[]
 }
 type Emits = {
   (_e: 'search', _searchValue: string): void;
@@ -36,15 +37,20 @@ function search() {
     </div>
     <div class="finding-search">
       <h4>Найденные результаты</h4>
-      <div
-        v-for="searchInfo in findSearchValue"
-        :key="searchInfo"
-        class="search-info-value"
+      <a-table
+        :dataSource="findSearchValue"
+        :columns="columns"
+        :row-key="(record: any) => record.key"
+        :scroll="{ x: 800, y: 300 }"
       >
-        <p>
-          {{searchInfo}}
-        </p>
-      </div>
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'site'">
+            <a :href="record.site" target="_blank">
+              {{ record.site }}
+            </a>
+          </template>
+        </template>
+      </a-table>
     </div>
   </div>
 </template>
@@ -63,12 +69,5 @@ function search() {
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-}
-.search-info-value{
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  width: 100%;
-  padding: 5px;
 }
 </style>

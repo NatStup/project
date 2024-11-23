@@ -36,24 +36,23 @@ const personFormValue = ref<PersonForm>({
   specificTags: 'БЕТОН',
 })
 
-const findSearch = ref<string[]>([
-  'Первый вариант ответа',
-  'Второй вариант ответа незнаю что тут нужно',
-  'Третий вариант ответа Н+1',
-  'Четвертый вариант ответа принятие',
-  'Пятый вариант ответа нужно понять как конфигурировать текст',
-])
+const findSearch = ref<object[]>([])
 
 function checkPerson(numberPerson: number) {
   personFormValue.value = personMock(numberPerson)
 }
 
-function search(searchValue: string) {
+async function search(searchValue: string) {
   console.log(searchValue)
+
+  const settingSearchFetch = await fetch(`http://81.94.156.218/api/search${searchValue}`)
+  const settingPerson = await settingSearchFetch.json()
+
+  findSearch.value = settingPerson
 }
 
 onMounted(async () => {
-  const settingPersonFetch = await fetch('api/get_filters')
+  const settingPersonFetch = await fetch('http://81.94.156.218/api/get_filters')
   const settingPerson = await settingPersonFetch.json()
 
   settingPersonOption.value = settingPerson
@@ -62,17 +61,18 @@ onMounted(async () => {
 
 const dataSource = [
   {
-    key: '1',
-    name: 'Mike',
-    age: 32,
-    address: '10 Downing Street',
+    key: 1,
+    site: "https://joyreactor.cc/new",
+    title: "Поддержка пожилого бизнеса",
+    description: "Будем подерживать стариков-ветеранов, желающих открыть свой бизнес завтра утром"
   },
   {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street',
-  },
+    key: 2,
+    site: "https://habr.com/ru/feed/",
+    title: "Поддержка краснодарского бизнеса",
+    descreiption: "Будем поддерживать ветеранов СВО, которые решили открыть свой бизнес в Краснодаре",
+    region: "Краснодарский край"
+  }
 ]
 </script>
 
@@ -123,20 +123,20 @@ const dataSource = [
         <h3>
           Приходящая информация формируемая из данных о пользователе
         </h3>
-        <div
-          v-for="searchInfo in findSearch"
-          :key="searchInfo"
-          class="search-info-value"
-        >
-          <p>
-            {{searchInfo}}
-          </p>
-        </div>
         <a-table
           :dataSource="dataSource"
           :columns="columns"
-          :scroll="{ x: 800, y: 400 }"
-        />
+          :row-key="(record: any) => record.key"
+          :scroll="{ x: 800, y: 300 }"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'site'">
+              <a :href="record.site" target="_blank">
+                {{ record.site }}
+              </a>
+            </template>
+          </template>
+        </a-table>
       </div>
     </div>
   </div>
@@ -178,7 +178,7 @@ const dataSource = [
 }
 
 .search-form{
-  height: 300px;
+  height: 500px;
 
   display: flex;
   align-items: center;
@@ -193,12 +193,5 @@ const dataSource = [
 }
 h3{
   padding: 20px;
-}
-.search-info-value{
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  width: 100%;
-  padding: 5px;
 }
 </style>

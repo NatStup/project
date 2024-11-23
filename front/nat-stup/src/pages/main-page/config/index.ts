@@ -1,17 +1,22 @@
 export const columns = [
   {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
+    title: 'Направление бизнеса',
+    dataIndex: 'title',
+    key: 'title',
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
+    title: 'Описание',
+    dataIndex: 'description',
+    key: 'description',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: 'Регион',
+    dataIndex: 'region',
+    key: 'region',
+  },
+  {
+    title: 'Сайт',
+    dataIndex: 'site',
+    key: 'site',
   },
 ];
