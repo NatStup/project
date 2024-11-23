@@ -1,5 +1,12 @@
 <script setup lang="ts">
 
+type PersonForm = {
+
+}
+
+const props = defineProps<Props>()
+
+const inputValue = defineModel()
 </script>
 
 <template>
