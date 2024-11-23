@@ -2,7 +2,7 @@
 import {ref} from "vue";
 
 type Props = {
-  findSearchValue: []
+  findSearchValue: string[]
 }
 type Emits = {
   (_e: 'search', _searchValue: string): void;

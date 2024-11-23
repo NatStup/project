@@ -1,24 +1,24 @@
 export default function personMock( numberPerson: number ){
   if (numberPerson === 1) {
     return {
-      direction: 'Гладить кота',
+      direction: 'СТРОИТЕЛЬСТВО',
       applicantType: 'Индивидуальный предприниматель',
-      regionOfProvision: 'ЮФО',
-      specificTags: 'шерсть',
+      regionOfProvision: 'Краснодарский край',
+      specificTags: 'БЕТОН',
     }
   } else if (numberPerson === 2) {
     return {
-      direction: 'Чесать гуся',
+      direction: 'ОБРАЗОВАНИЕ',
       applicantType: 'Физическое лицо',
       regionOfProvision: 'Москва',
-      specificTags: 'перо',
+      specificTags: 'УСЛУГИ',
     }
   } else {
     return {
-      direction: 'Смотреть на стадо коров',
+      direction: 'ОБЕСПЕЧЕНИЕ ЭЛЕКТРИЧЕСКОЙ ЭНЕРГИЕЙ, ГАЗОМ И ПАРОМ; КОНДИЦИОНИРОВАНИЕ ВОЗДУХА',
       applicantType: 'Юридическое лицо',
-      regionOfProvision: 'Ростовская область',
-      specificTags: 'молоко',
+      regionOfProvision: 'Курганская область',
+      specificTags: 'ОБОРУДОВАНИЕ',
     }
   }
 }

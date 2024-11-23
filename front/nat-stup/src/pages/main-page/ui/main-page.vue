@@ -30,13 +30,13 @@ const settingPersonOption = ref<SettingPersonOption>({
 })
 
 const personFormValue = ref<PersonForm>({
-  direction: 'Гладить кота',
+  direction: 'СТРОИТЕЛЬСТВО',
   applicantType: 'Индивидуальный предприниматель',
-  regionOfProvision: 'ЮФО',
-  specificTags: 'шерсть',
+  regionOfProvision: 'Краснодарский край',
+  specificTags: 'БЕТОН',
 })
 
-const findSearch = ref([
+const findSearch = ref<string[]>([
   'Первый вариант ответа',
   'Второй вариант ответа незнаю что тут нужно',
   'Третий вариант ответа Н+1',
@@ -53,7 +53,7 @@ function search(searchValue: string) {
 }
 
 onMounted(async () => {
-  const settingPersonFetch = await fetch('http://81.94.156.218/api/get_filters')
+  const settingPersonFetch = await fetch('api/get_filters')
   const settingPerson = await settingPersonFetch.json()
 
   settingPersonOption.value = settingPerson
