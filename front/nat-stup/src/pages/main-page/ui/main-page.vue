@@ -63,7 +63,7 @@ function checkPerson(numberPerson: number) {
 async function search(searchValue: string) {
   console.log(searchValue)
 
-  const searchVal = (searchValue) ? `?${searchValue}` : ''
+  const searchVal = (searchValue) ? `?specific_request=${searchValue}` : ''
 
   const settingSearchFetch = await fetch(`http://81.94.156.218/api/search${searchVal}`)
   const settingPerson = await settingSearchFetch.json()
