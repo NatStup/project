@@ -18,7 +18,7 @@ export default function personMock( numberPerson: number ){
       direction: 'ОБЕСПЕЧЕНИЕ ЭЛЕКТРИЧЕСКОЙ ЭНЕРГИЕЙ, ГАЗОМ И ПАРОМ; КОНДИЦИОНИРОВАНИЕ ВОЗДУХА',
       applicantType: 'Юридическое лицо',
       regionOfProvision: 'Курганская область',
-      specificTags: 'ОБОРУДОВАНИЕ',
+      specificTags: 'РЕПУТАЦИЯ',
     }
   }
 }

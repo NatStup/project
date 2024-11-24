@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { columns } from "@/pages/main-page/config";
+import ModalInfo from "@/entites/modal-info";
 
 type Props = {
   findSearchValue: object[]
@@ -41,13 +42,16 @@ function search() {
         :dataSource="findSearchValue"
         :columns="columns"
         :row-key="(record: any) => record.key"
-        :scroll="{ x: 800, y: 300 }"
+        :scroll="{ x: 800, y: 270 }"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'site'">
             <a :href="record.site" target="_blank">
-              {{ record.site }}
+              Ссылка
             </a>
+          </template>
+          <template v-if="column.key === 'uuid'">
+            <modal-info :id="record.uuid"/>
           </template>
         </template>
       </a-table>
