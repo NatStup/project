@@ -1,9 +1,9 @@
 class Parser:
 
-    def save_item_in_file(self, item):
+    def save_item_in_file(self, file_uuid, info):
         pass
 
-    def save_item_in_database(self, item):
+    def save_item_in_database(self, info):
         pass
 
     def scrape_item(self, item):
