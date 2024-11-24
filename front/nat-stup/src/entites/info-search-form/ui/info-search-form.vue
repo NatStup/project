@@ -45,8 +45,8 @@ function search() {
         :scroll="{ x: 800, y: 270 }"
       >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'site'">
-            <a :href="record.site" target="_blank">
+          <template v-if="column.key === 'url'">
+            <a :href="record.url" target="_blank">
               Ссылка
             </a>
           </template>

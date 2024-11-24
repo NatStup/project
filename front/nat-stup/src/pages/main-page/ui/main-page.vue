@@ -39,13 +39,13 @@ const personFormValue = ref<PersonForm>({
 
 const dataSource = ref([
   {
-    uuid: 1,
+    uuid: '52aafc01-3aab-4cfe-a122-7a9a5df80e7c',
     site: "https://joyreactor.cc/new",
     title: "Поддержка пожилого бизнеса",
     description: "Будем подерживать стариков-ветеранов, желающих открыть свой бизнес завтра утром"
   },
   {
-    uuid: 2,
+    uuid: 'a6f81fb1-44fe-4d1d-bb62-b68e66248479',
     site: "https://habr.com/ru/feed/",
     title: "Поддержка краснодарского бизнеса",
     descreiption: "Будем поддерживать ветеранов СВО, которые решили открыть свой бизнес в Краснодаре",
@@ -63,7 +63,9 @@ function checkPerson(numberPerson: number) {
 async function search(searchValue: string) {
   console.log(searchValue)
 
-  const settingSearchFetch = await fetch(`http://81.94.156.218/api/search`)
+  const searchVal = (searchValue) ? `?${searchValue}` : ''
+
+  const settingSearchFetch = await fetch(`http://81.94.156.218/api/search${searchVal}`)
   const settingPerson = await settingSearchFetch.json()
 
   findSearch.value = settingPerson
@@ -140,8 +142,8 @@ onMounted(async () => {
           :scroll="{ x: 800, y: 300 }"
         >
           <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'site'">
-              <a :href="record.site" target="_blank">
+            <template v-if="column.key === 'url'">
+              <a :href="record.url" target="_blank">
                 Ссылка
               </a>
             </template>

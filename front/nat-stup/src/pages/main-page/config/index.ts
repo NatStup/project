@@ -17,8 +17,8 @@ export const columns = [
   },
   {
     title: 'Сайт',
-    dataIndex: 'site',
-    key: 'site',
+    dataIndex: 'url',
+    key: 'url',
     width: 85,
 
   },
