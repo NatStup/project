@@ -1,3 +1,4 @@
+import random
 from typing import Optional
 
 from sqlalchemy.orm import Session
@@ -20,5 +21,6 @@ def get_venues(db: Session):
     return db.query(cm.Venue).all()
 
 
-def get_articles(db: Session, search: Optional[company_schemas.SearchSupport]):
-    return db.query(cm.Offer).all()[:10]
+def get_articles(db: Session):
+    articles = random.sample(db.query(cm.Offer).all(), 10)
+    return articles

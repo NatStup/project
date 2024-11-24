@@ -1,13 +1,11 @@
+import requests
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.openapi.docs import get_swagger_ui_html
-from openai import OpenAI
 from sqlalchemy.orm import Session
 
 from crud import company_crud
 from crud.company_crud import get_articles
 from dependencies import get_db
-from schemas import company_schemas
 from settings import LLM_TOKEN
 
 app = FastAPI()
@@ -59,17 +57,38 @@ async def get_settings():
 #     return get_swagger_ui_html(openapi_url="/openapi.json")
 
 @app.get('/api/search')
-async def get_search(search: company_schemas.SearchSupport = None, db: Session = Depends(get_db)):
-    return get_articles(db, search)
+async def get_search(db: Session = Depends(get_db)):
+    return get_articles(db)
 
 
-@app.get('/api/get_company_types')
-async def get_neuron(db: Session = Depends(get_db)):
-    client = OpenAI(
-        api_key=LLM_TOKEN,
-        base_url='http://81.94.159.216:5000',
+@app.get('/api/get_neuron_text')
+async def get_neuron(uuid: str):
+    f = open(f'data/selections/{uuid}.md', 'r', encoding='utf-8')
+    context = f.read()
+
+    prompt = '''<s>[INST]Контекст:
+    """
+    {context}
+    """
+
+    Опираясь на контекст, ответь на вопросы:
+    * Что нужно для получения поддержки?
+    * Что можно получить по этой программе поддержки (субсидии)?
+
+    Кратко опиши программу поддержки (2-3 предложения), затем ответь на вопросы выше (также 2-3 предложения).[/INST]'''
+    prompt = prompt.format(context=context)
+    response = requests.post(
+        'http://81.94.159.216:5000/v1/completions',
+        json={
+            'model': 'kamiex/Mistral-Nemo-Instruct-2407-W8A16',
+            'prompt': prompt,
+            'max_tokens': 512,
+            'temperature': 0.3
+        },
+        headers={'Authorization': f'Bearer {LLM_TOKEN}'},
     )
-    completion = client.completions.create(
-        model="Qwen/Qwen2.5-1.5B-Instruct",
-        prompt="San Francisco is a",
-    )
+    # completion = client.completions.create(model="kamiex/Mistral-Nemo-Instruct-2407-W8A16", prompt=prompt)
+    # return completion.choices[0].text
+    return response.json()['choices'][0]['text']
+
+
