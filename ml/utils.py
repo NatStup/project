@@ -9,7 +9,7 @@ def analize_text(text: str):
     model = AutoModelForSequenceClassification.from_pretrained(model_name)
 
     premise = text
-    hypothesis = "В тексте упоминаются меры поддержки бизнеса"
+    hypothesis = "В тексте упоминаются меры поддержки бизнеса в денежном эквиваленте"
 
     input = tokenizer(premise, hypothesis, truncation=True, return_tensors="pt")
     output = model(input["input_ids"].to(device))  # device = "cuda:0" or "cpu"
