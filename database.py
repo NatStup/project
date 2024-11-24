@@ -5,12 +5,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+from settings import PASSWORD, USERNAME, DB_NAME
 
-load_dotenv()
-
-USERNAME = os.getenv('USERNAME')
-PASSWORD = os.getenv('PASSWORD')
-DB_NAME = os.getenv('DB_NAME')
 
 DB_CREDENTIALS = {
     'username': USERNAME,
