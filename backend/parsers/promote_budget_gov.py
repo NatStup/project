@@ -1,9 +1,10 @@
 import json
 
 import requests
+from bs4 import BeautifulSoup
 
 from backend.parsers.parent import Parser
-
+from ml.utils import analize_text
 
 ITEMS_PER_PAGE = 50
 
@@ -61,6 +62,7 @@ class PromoteBudgetGovParser(Parser):
         applications_url = self.applications_url_template.format(selection_id=selection_id)
         self.item_headers['Referer'] = item_site_url
         item_text = ''
+        title = ''
         try:
             main_info_text_template = '''
 
@@ -74,8 +76,9 @@ class PromoteBudgetGovParser(Parser):
 '''
             main_info_response = requests.get(main_info_url)
             main_info_data = main_info_response.json()
+            title = main_info_data.get('selectionName', '')
             main_info_text = main_info_text_template.format(
-                selection_full_name=main_info_data.get('selectionName', ''),
+                selection_full_name=title,
                 additional_info='\n'.join([
                     main_info_data.get('procedureForClarificationProvisions', ''),
                     main_info_data.get('procedureForClarificationProvisions', ''),
@@ -135,6 +138,13 @@ class PromoteBudgetGovParser(Parser):
 #         except:
 #             pass
         self.save_item_in_file(activity_id, item_text)
+        self.save_item_in_database(
+            {
+                'uuid': activity_id,
+                'file_url': f'data/selections/{activity_id}.md',
+                'title': title,
+            },
+        )
 
     def scrape_page(self, page_number):
         print(f'Scraping page {page_number}')
