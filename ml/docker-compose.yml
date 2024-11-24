@@ -1,0 +1,23 @@
+services:
+  vllm-service:
+    image: vllm/vllm-openai:v0.6.0
+    container_name: vllm-engine
+    environment:
+      - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN}
+      - VLLM_API_KEY=${VLLM_API_KEY}
+    ports:
+      - ${VLLM_PORT}:5000
+    volumes:
+      - models-cache:/root/.cache/huggingface
+    entrypoint: python3
+    command: -m vllm.entrypoints.openai.api_server --port=5000 --host=0.0.0.0 --model ${MODEL_NAME} --max-model-len ${MAX_MODEL_LEN} --gpu-memory-utilization ${VRAM_UTILIZATION}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]
+
+volumes:
+  models-cache:
