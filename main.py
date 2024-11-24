@@ -1,5 +1,5 @@
 import requests
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
@@ -63,7 +63,11 @@ async def get_search(db: Session = Depends(get_db)):
 
 @app.get('/api/get_neuron_text')
 async def get_neuron(uuid: str):
-    f = open(f'data/selections/{uuid}.md', 'r', encoding='utf-8')
+    try:
+        f = open(f'data/selections/{uuid}.md', 'r', encoding='utf-8')
+    except Exception:
+        return HTTPException(status_code=400, detail='Такого файла не существует')
+
     context = f.read()
 
     prompt = '''<s>[INST]Контекст:
