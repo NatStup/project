@@ -25,6 +25,8 @@ def get_articles(db: Session, specific_request: Optional[str], specific_tages: O
     articles = db.query(cm.Offer)
     if specific_request:
         articles = articles.filter(cm.Offer.title.ilike(f'%{specific_request}%')).all()
+    else:
+        articles = articles.all()
 
     if not articles:
         return articles
