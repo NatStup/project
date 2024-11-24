@@ -16,7 +16,7 @@ headers = {
     'Sec-Fetch-Site': 'same-origin',
     'sec-ch-ua': '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
 }
-data = {"currentPage":1,"entryCount":5,"recipientCategory":[],"recipientSelectionWayId":[],"minActivityAmountForPerson":None,"maxActivityAmountForPerson":None,"coFinancing":[],"activityYear":[],"subsidyTypeId":[],"budgetType":[],"activityCategory":[],"directionId":[],"okvedId":[],"textTerms":[],"realizationPlace":[],"pppCode":[],"activityType":[],"maxAmountType":[],"distributionType":[],"sortDirection":0,"sortMember":"Default","isSelection":False,"geography":[],"tags":[],"selectionLicenseRequired":[],"accreditationRequired":[],"nkoTypeRequired":[1,2],"selectionType":0,"soOktmos":[]}
+data = {"currentPage":1,"entryCount":5,"recipientCategory":[],"recipientSelectionWayId":[],"minActivityAmountForPerson":None,"maxActivityAmountForPerson":None,"coFinancing":[],"activityYear":[],"subsidyTypeId":[],"budgetType":[],"activityCategory":[],"directionId":[],"okvedId":[],"textTerms":[],"realizationPlace":[],"pppCode":[],"activityType":[],"maxAmountType":[],"distributionType":[],"sortDirection":0,"sortMember":"Default","isSelection":True,"geography":[],"tags":[],"selectionLicenseRequired":[],"accreditationRequired":[],"nkoTypeRequired":[1,2],"selectionType":0,"soOktmos":[]}
 
 b = requests.post(BASE_URL, json=data, headers=headers)
 print(b)
