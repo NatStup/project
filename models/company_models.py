@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 
 from database import Base
 
@@ -21,3 +21,13 @@ class Venue(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
+
+
+class Offer(Base):
+    __tablename__ = 'offer'
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, nullable=False)
+    venue_id = Column(Integer, ForeignKey('venue.id'), nullable=True)
+    uuid = Column(String, nullable=False)
+    file_url = Column(String, nullable=False)
