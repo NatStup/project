@@ -28,6 +28,6 @@ class Offer(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False)
-    venue_id = Column(Integer, ForeignKey('venue.id'), nullable=False)
+    venue_id = Column(Integer, ForeignKey('venue.id'), nullable=True)
     uuid = Column(String, nullable=False)
     file_url = Column(String, nullable=False)
