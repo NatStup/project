@@ -55,6 +55,7 @@ const dataSource = ref([
 
 const findSearch = ref<object[]>([])
 
+const isMockUsers = ref<boolean>(true)
 function checkPerson(numberPerson: number) {
   personFormValue.value = personMock(numberPerson)
 }
@@ -62,7 +63,7 @@ function checkPerson(numberPerson: number) {
 async function search(searchValue: string) {
   console.log(searchValue)
 
-  const settingSearchFetch = await fetch(`http://81.94.156.218/api/search${searchValue}`)
+  const settingSearchFetch = await fetch(`http://81.94.156.218/api/search`)
   const settingPerson = await settingSearchFetch.json()
 
   findSearch.value = settingPerson
@@ -73,7 +74,7 @@ onMounted(async () => {
     const settingPersonFetch = await fetch('http://81.94.156.218/api/get_filters')
     const settingPerson = await settingPersonFetch.json()
 
-    // const infoFromPersonDataFetch = await fetch('http://81.94.156.218/api/get_filters')
+    // const infoFromPersonDataFetch = await fetch('http://81.94.156.218/api/get_neuron_text')
     // const infoFromPersonData = await infoFromPersonDataFetch.json()
 
     settingPersonOption.value = settingPerson
@@ -87,7 +88,8 @@ onMounted(async () => {
 <template>
   <div id="main-page">
     <div id="user-window">
-      <div id="users">
+      <a-checkbox v-model:checked="isMockUsers">Мок пользователи</a-checkbox>
+      <div v-if="isMockUsers" id="users">
         <div
           class="user-info"
           @click="checkPerson(1)"

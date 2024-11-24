@@ -14,7 +14,7 @@ const info = async (id: number | string) => {
   console.log(id)
   let orgInfoText
   try {
-    const orgInfo = await fetch(`http://81.94.156.218/api/get_filters/${id}`)
+    const orgInfo = await fetch(`http://81.94.156.218/api/get_neuron_text?uuid=${id}`)
     orgInfoText = await orgInfo.json()
   } catch {}
   finally {
