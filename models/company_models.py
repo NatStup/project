@@ -31,3 +31,4 @@ class Offer(Base):
     venue_id = Column(Integer, ForeignKey('venue.id'), nullable=True)
     uuid = Column(String, nullable=False)
     file_url = Column(String, nullable=False)
+    url = Column(String, nullable=False)
