@@ -5,6 +5,7 @@ from openai import OpenAI
 from sqlalchemy.orm import Session
 
 from crud import company_crud
+from crud.company_crud import get_articles
 from dependencies import get_db
 from schemas import company_schemas
 from settings import LLM_TOKEN
@@ -59,30 +60,7 @@ async def get_settings():
 
 @app.get('/api/search')
 async def get_search(search: company_schemas.SearchSupport = None, db: Session = Depends(get_db)):
-    return [
-        {
-            'site': 'https://test.ru',
-            'title': 'Поддержка пожилого бизнеса',
-            'description': 'Будем подерживать стариков-ветеранов, желающих открыть свой бизнес завтра утром',
-        },
-        {
-            'site': 'https://msk.test.ru',
-            'title': 'Поддержка краснодарского бизнеса',
-            'descreiption': 'Будем поддерживать ветеранов СВО, которые решили открыть свой бизнес в Краснодаре',
-            'region': 'Краснодарский край',
-        },
-        {
-            'site': 'https://test.ru',
-            'title': 'Поддержка пожилого бизнеса',
-            'description': 'Будем подерживать стариков-ветеранов, желающих открыть свой бизнес завтра утром',
-        },
-        {
-            'site': 'https://msk.test.ru',
-            'title': 'Поддержка краснодарского бизнеса',
-            'descreiption': 'Будем поддерживать ветеранов СВО, которые решили открыть свой бизнес в Краснодаре',
-            'region': 'Краснодарский край',
-        },
-    ]
+    return get_articles(db, search)
 
 
 @app.get('/api/get_company_types')
