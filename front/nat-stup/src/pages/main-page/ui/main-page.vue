@@ -4,6 +4,7 @@ import {onMounted, ref} from "vue";
 import InfoSearchForm from "@/entites/info-search-form";
 import personMock from "../model";
 import { columns } from "../config";
+import ModalInfo from "@/entites/modal-info";
 
 type OptionValue = {
   id: number;
@@ -36,6 +37,22 @@ const personFormValue = ref<PersonForm>({
   specificTags: 'БЕТОН',
 })
 
+const dataSource = ref([
+  {
+    uuid: 1,
+    site: "https://joyreactor.cc/new",
+    title: "Поддержка пожилого бизнеса",
+    description: "Будем подерживать стариков-ветеранов, желающих открыть свой бизнес завтра утром"
+  },
+  {
+    uuid: 2,
+    site: "https://habr.com/ru/feed/",
+    title: "Поддержка краснодарского бизнеса",
+    descreiption: "Будем поддерживать ветеранов СВО, которые решили открыть свой бизнес в Краснодаре",
+    region: "Краснодарский край"
+  }
+])
+
 const findSearch = ref<object[]>([])
 
 function checkPerson(numberPerson: number) {
@@ -52,28 +69,19 @@ async function search(searchValue: string) {
 }
 
 onMounted(async () => {
-  const settingPersonFetch = await fetch('http://81.94.156.218/api/get_filters')
-  const settingPerson = await settingPersonFetch.json()
+  try {
+    const settingPersonFetch = await fetch('http://81.94.156.218/api/get_filters')
+    const settingPerson = await settingPersonFetch.json()
 
-  settingPersonOption.value = settingPerson
-  console.log(settingPerson)
-})
+    // const infoFromPersonDataFetch = await fetch('http://81.94.156.218/api/get_filters')
+    // const infoFromPersonData = await infoFromPersonDataFetch.json()
 
-const dataSource = [
-  {
-    key: 1,
-    site: "https://joyreactor.cc/new",
-    title: "Поддержка пожилого бизнеса",
-    description: "Будем подерживать стариков-ветеранов, желающих открыть свой бизнес завтра утром"
-  },
-  {
-    key: 2,
-    site: "https://habr.com/ru/feed/",
-    title: "Поддержка краснодарского бизнеса",
-    descreiption: "Будем поддерживать ветеранов СВО, которые решили открыть свой бизнес в Краснодаре",
-    region: "Краснодарский край"
+    settingPersonOption.value = settingPerson
+    // dataSource.value = infoFromPersonData
+  } catch {
+
   }
-]
+})
 </script>
 
 <template>
@@ -132,8 +140,11 @@ const dataSource = [
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'site'">
               <a :href="record.site" target="_blank">
-                {{ record.site }}
+                Ссылка
               </a>
+            </template>
+            <template v-if="column.key === 'uuid'">
+              <modal-info :id="record.uuid"/>
             </template>
           </template>
         </a-table>

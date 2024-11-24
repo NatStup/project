@@ -8,6 +8,7 @@ export const columns = [
     title: 'Описание',
     dataIndex: 'description',
     key: 'description',
+    width: 300,
   },
   {
     title: 'Регион',
@@ -18,5 +19,13 @@ export const columns = [
     title: 'Сайт',
     dataIndex: 'site',
     key: 'site',
+    width: 85,
+
+  },
+  {
+    title: 'Подробно',
+    dataIndex: 'uuid',
+    key: 'uuid',
+    width: 105,
   },
 ];
