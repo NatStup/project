@@ -21,6 +21,13 @@ def get_venues(db: Session):
     return db.query(cm.Venue).all()
 
 
-def get_articles(db: Session):
-    articles = random.sample(db.query(cm.Offer).all(), 10)
+def get_articles(db: Session, specific_request: Optional[str], specific_tages: Optional[str]):
+    articles = db.query(cm.Offer)
+    if specific_request:
+        articles = articles.filter(cm.Offer.title.ilike(f'%{specific_request}%')).all()
+
+    if not articles:
+        return articles
+
+    articles = random.sample(articles, 10)
     return articles

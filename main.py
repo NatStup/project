@@ -1,3 +1,5 @@
+from typing import Optional
+
 import requests
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -57,8 +59,12 @@ async def get_settings():
 #     return get_swagger_ui_html(openapi_url="/openapi.json")
 
 @app.get('/api/search')
-async def get_search(db: Session = Depends(get_db)):
-    return get_articles(db)
+async def get_search(
+    specific_tages: Optional[str] = None,
+    specific_request: Optional[str] = None,
+    db: Session = Depends(get_db),
+):
+    return get_articles(db, specific_request, specific_tages)
 
 
 @app.get('/api/get_neuron_text')
